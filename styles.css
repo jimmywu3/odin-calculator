@@ -14,7 +14,15 @@ input{
     width: 100%;
 }
 
+.row:not(:last-child){
+    margin-bottom: 3px;
+}
+
 button{
     height: 40px;
     width: 40px;
+}
+
+.equal{
+    width: 100%;
 }
