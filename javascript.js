@@ -63,7 +63,7 @@ displayable.forEach((number) => {
 // make it so that if there is already an operator we will run operate
 operators.forEach((oper) => {
     oper.addEventListener("click", () => {
-        if(operator !== undefined){
+        if(operator !== undefined && secondNum !== undefined){
             let ans = Math.round(operate(operator, Number(firstNum), Number(secondNum)) * 100) / 100;
             if(Number.isFinite(ans)){
                 operator = oper.className.trim();
@@ -78,8 +78,10 @@ operators.forEach((oper) => {
             }
 
         } else {
-            display.value += oper.className;
-            operator = oper.className.trim();
+            if(operator === undefined){
+                display.value += oper.className;
+                operator = oper.className.trim();
+            }
         }
     });  
 })
