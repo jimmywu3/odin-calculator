@@ -15,9 +15,7 @@ const divide = (num1, num2) => {
 };
 
 const display = document.querySelector("input");
-let displayValue;
 
-//not sure if i will use these
 let firstNum;
 let operator;
 let secondNum;
@@ -26,52 +24,116 @@ let secondNum;
 const operate = (oper, num1, num2) => {
     switch(oper){
         case "+":
-            add(num1,num2);
+            return add(num1,num2);
         break;
         case "-":
-            subtract(num1,num2);
+            return subtract(num1,num2);
         break;
         case "*":
-            multiply(num1,num2);
+            return multiply(num1,num2);
         break;
         case "/": 
-            divide(num1,num2);
+            return divide(num1,num2)
         break;
     }
 }
 
 const displayable = document.querySelectorAll("#displayable");
 const operators = document.querySelectorAll("#operator");
+const decimal = document.querySelector("#decimal");
 
-// we can know which num variable we assigning to by checking if the operator type undefined or not (num1 is undefinded, num2 if defined)
 displayable.forEach((number) => {
     number.addEventListener("click", () => {
         display.value += number.className;
-        displayValue = display.value;
+        if(operator === undefined){
+            if(firstNum === undefined)
+                firstNum = number.className;
+            else
+                firstNum += number.className;
+        } else {
+            if(secondNum === undefined)
+                secondNum = number.className;
+            else
+                secondNum += number.className;
+        }
     });
 });
 
-//should also have some type of boolean expresion that tells calculator we move onto num2 when clicking an operator
-// idea maybe make operator an object that holds the operator type and bool if operator has been chosen
-// actually we can know if operator has been clicked by knowing the operator type, if same type is clicked then we will set it back to undefined
+
+// make it so that if there is already an operator we will run operate
 operators.forEach((oper) => {
     oper.addEventListener("click", () => {
-        display.value += oper.className;
-        displayValue = display.value;
-        operator = oper.className.trim();
+        if(operator !== undefined){
+            let ans = Math.round(operate(operator, Number(firstNum), Number(secondNum)) * 100) / 100;
+            if(Number.isFinite(ans)){
+                operator = oper.className.trim();
+                secondNum = undefined;
+                firstNum = String(ans);
+                display.value = ans + oper.className;                
+            } else {
+                operator = undefined;
+                secondNum = undefined;
+                firstNum = undefined;    
+                display.value = "DO NOT DIVIDE BY 0";  
+            }
+
+        } else {
+            display.value += oper.className;
+            operator = oper.className.trim();
+        }
     });  
 })
+
+const decimalHelper = (num) => {
+    if(num === undefined){
+        console.log("con1");
+        display.value += ".";
+        num = ".";
+    } else if(num.indexOf(".") === -1){
+        console.log("con2")
+        display.value += ".";
+        num += ".";
+    } 
+    return num;
+};
+
+decimal.addEventListener("click", ()=> {
+    if(operator === undefined){ // num1
+        firstNum = decimalHelper(firstNum);
+    } else { // num2
+        secondNum = decimalHelper(secondNum);
+    }
+});
 
 const clear = document.querySelector(".clear");
 clear.addEventListener("click", () => {
     display.value = "";
-    displayValue = display.value;
     operator = undefined;
+    firstNum = undefined;
+    secondNum = undefined;
+});
+
+const equal = document.querySelector(".equal");
+equal.addEventListener("click", () => {
+    if(firstNum && operator && secondNum){
+        let ans = Math.round(operate(operator, Number(firstNum), Number(secondNum)) * 100) / 100;
+        if(Number.isFinite(ans)){
+            operator = undefined;
+            secondNum = undefined;
+            firstNum = ans;
+            display.value = ans;
+        } else {
+            operator = undefined;
+            secondNum = undefined;
+            firstNum = undefined;    
+            display.value = "DO NOT DIVIDE BY 0";  
+        }
+    } 
 });
 
 /* To do
    - Make calculator behave more like phone calculator (similar to student example)
    - After clicking operator button, calculator must know that you are now entering number into num2
    - Clicking an operator when we are looking at num2 will run operate()
-   
+   - check all the gotchas on odin project
 */
