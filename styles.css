@@ -23,6 +23,12 @@ button{
     width: 40px;
 }
 
-.equal{
-    width: 100%;
+.row5{
+    display: flex;
+    gap: 4px;
+}
+
+[class="0"]{
+    flex: 2;
+
 }

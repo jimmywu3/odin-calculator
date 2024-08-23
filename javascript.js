@@ -135,12 +135,29 @@ equal.addEventListener("click", () => {
     } 
 });
 
+const negative = document.querySelector(".negative");
+negative.addEventListener("click", () => {
+    if(operator === undefined){
+        firstNum *= -1;
+        console.log(firstNum);
+        if(Number.isFinite(firstNum))
+            display.value = firstNum;
+        else
+            firstNum = undefined;
+    }else{
+        secondNum *= -1;
+        console.log(secondNum); 
+        if(Number.isFinite(secondNum))
+            display.value = firstNum + " " + operator + " " + secondNum;    
+        else 
+            secondNum = undefined;  
+    }
+});
+
 /* To do
 
     Other additions: 
     - keyboard support
-    - +/- button
-    - be able to switch between operators (when num1 and operators are entered already)
 
    - UI
    - On hover effect
