@@ -77,12 +77,14 @@ operators.forEach((oper) => {
                 display.value = "DO NOT DIVIDE BY 0";  
             }
 
-        } else {
-            if(operator === undefined){
-                display.value += oper.className;
-                operator = oper.className.trim();
-            }
+        } else if(operator === undefined && firstNum !== undefined){
+            display.value += oper.className;
+            operator = oper.className.trim();
+        } else if(operator !== undefined && firstNum !== undefined){
+            display.value = firstNum + oper.className;
+            operator = oper.className.trim();
         }
+        
     });  
 })
 
@@ -134,8 +136,15 @@ equal.addEventListener("click", () => {
 });
 
 /* To do
-   - Make calculator behave more like phone calculator (similar to student example)
-   - After clicking operator button, calculator must know that you are now entering number into num2
-   - Clicking an operator when we are looking at num2 will run operate()
-   - check all the gotchas on odin project
+
+    Other additions: 
+    - keyboard support
+    - +/- button
+    - be able to switch between operators (when num1 and operators are entered already)
+
+   - UI
+   - On hover effect
+   - Make display bigger (fontsize)
+   - grey out operator when it is present on the display
+
 */
