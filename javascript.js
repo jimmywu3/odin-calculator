@@ -93,12 +93,14 @@ const decimalHelper = (num) => {
         console.log("con1");
         display.value += "0.";
         num = "0.";
+        return num;
     } else if(num.indexOf(".") === -1){
         console.log("con2")
         display.value += ".";
-        num += ".";
-    } 
-    return num;
+        return ".";
+    } else {
+        return "";
+    }
 };
 
 decimal.addEventListener("click", ()=> {
