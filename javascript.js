@@ -91,8 +91,8 @@ operators.forEach((oper) => {
 const decimalHelper = (num) => {
     if(num === undefined){
         console.log("con1");
-        display.value += ".";
-        num = ".";
+        display.value += "0.";
+        num = "0.";
     } else if(num.indexOf(".") === -1){
         console.log("con2")
         display.value += ".";
@@ -103,9 +103,15 @@ const decimalHelper = (num) => {
 
 decimal.addEventListener("click", ()=> {
     if(operator === undefined){ // num1
-        firstNum = decimalHelper(firstNum);
+        if(firstNum === undefined)
+            firstNum = decimalHelper(firstNum);
+        else
+            firstNum += decimalHelper(firstNum);
     } else { // num2
-        secondNum = decimalHelper(secondNum);
+        if(secondNum === undefined)
+            secondNum = decimalHelper(secondNum);
+        else
+            secondNum+= decimalHelper(secondNum);   
     }
 });
 
@@ -120,7 +126,10 @@ clear.addEventListener("click", () => {
 const equal = document.querySelector(".equal");
 equal.addEventListener("click", () => {
     if(firstNum && operator && secondNum){
+        console.log("first num: " + firstNum);
+        console.log("second num: " + secondNum);
         let ans = Math.round(operate(operator, Number(firstNum), Number(secondNum)) * 100) / 100;
+        console.log(ans);
         if(Number.isFinite(ans)){
             operator = undefined;
             secondNum = undefined;
